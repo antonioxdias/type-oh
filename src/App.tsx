@@ -1,4 +1,5 @@
 import React from 'react'
+import Typer from './components/Typer'
 
 function App() {
   return (
@@ -8,11 +9,10 @@ function App() {
         placeItems: 'center',
         backgroundColor: '#282c34',
         height: '100vh',
-        fontSize: 'calc(10px + 2vmin)',
         color: 'white'
       }}
     >
-      Type-OH
+      <Typer />
     </main>
   )
 }
