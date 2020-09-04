@@ -11,6 +11,7 @@ const emptyColor = '#808080'
 function Typer() {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [typedText, setTypedText] = useState('')
+  const [isFocused, setIsFocused] = useState(false)
 
   const focusInput = () => {
     if (inputRef && inputRef.current) inputRef.current.focus()
@@ -44,21 +45,35 @@ function Typer() {
         style={{
           maxWidth: 720,
           fontSize: 'calc(10px + 2vmin)',
+          fontFamily: 'monospace, monospace',
           textAlign: 'center',
-          wordSpacing: 4
+          wordSpacing: '0.25rem',
+          letterSpacing: '-0.25rem'
         }}
       >
         {dummyTestText.split('').map((char: string, index: number) => {
           const state = charState(index)
           const color = charColor(state)
           const isNaySpace = isSpaceChar(char) && state === 'nay'
+          const isLastTypedChar = index === typedText.length - 1
+          const isTypedEmpty = typedText.length === 0
+
+          const borderStyle = isFocused ? {
+            borderLeft: `solid 2px ${isTypedEmpty && index === 0 ? yayColor : 'transparent'}`,
+            borderRight: `solid 2px ${isLastTypedChar && !isTypedEmpty ? yayColor : 'transparent'}`,
+            borderRadius: isLastTypedChar || isTypedEmpty ? 0 : 8
+          } : {
+            borderLeft: 'solid 2px transparent',
+            borderRight: 'solid 2px transparent'
+          }
+
           return (
             <span
               key={index}
               style={{
                 color,
                 backgroundColor: isNaySpace ? nayColor : 'transparent',
-                borderRadius: 8
+                ...borderStyle
               }}
             >
               {char}
@@ -69,6 +84,8 @@ function Typer() {
       <input
         ref={inputRef}
         onChange={(ev) => setTypedText(ev.target.value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         style={{
           position: 'absolute',
           top: '-999999px',
