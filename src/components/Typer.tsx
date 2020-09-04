@@ -23,7 +23,7 @@ function Typer() {
         <div
           style={{
             width: '100%',
-            color: 'gray'
+            color: '#808080'
           }}
         >
           { dummyTestText }
@@ -35,7 +35,7 @@ function Typer() {
             left: 0,
             pointerEvents: 'none',
             width: '100%',
-            color: 'wheat'
+            color: '#c7b798'
           }}
         >
           { typedText }

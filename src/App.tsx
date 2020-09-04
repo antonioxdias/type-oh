@@ -7,7 +7,7 @@ function App() {
       style={{
         display: 'grid',
         placeItems: 'center',
-        backgroundColor: '#282c34',
+        backgroundColor: '#282d33',
         height: '100vh',
         color: 'white'
       }}
