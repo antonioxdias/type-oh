@@ -7,7 +7,7 @@ function App() {
   const [requestWords, setRequestWords] = useState(true)
 
   const requestCompleted = () => setRequestWords(false)
-  const words = useWords(50, requestWords, requestCompleted)
+  const words = useWords(25, requestWords, requestCompleted)
   useEffect(() => requestCompleted, [])
 
   return (
