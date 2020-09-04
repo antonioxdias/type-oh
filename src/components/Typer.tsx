@@ -48,8 +48,8 @@ export function Typer({ typedText, setTypedText, testText }: {
           fontSize: 'calc(10px + 2vmin)',
           fontFamily: 'monospace, monospace',
           textAlign: 'center',
-          wordSpacing: '0.25rem',
-          letterSpacing: '-0.25rem'
+          // wordSpacing: '0.25rem',
+          // letterSpacing: '-0.25rem'
         }}
       >
         {testText.split('').map((char: string, index: number) => {
@@ -60,12 +60,13 @@ export function Typer({ typedText, setTypedText, testText }: {
           const isTypedEmpty = typedText.length === 0
 
           const borderStyle = isFocused ? {
-            borderLeft: `solid 2px ${isTypedEmpty && index === 0 ? yayColor : 'transparent'}`,
-            borderRight: `solid 2px ${isLastTypedChar && !isTypedEmpty ? yayColor : 'transparent'}`,
+            borderLeft: isTypedEmpty && index === 0 ? `solid 2px ${yayColor}` : 'none',
+            borderRight: `solid 2px ${isLastTypedChar && !isTypedEmpty ? yayColor : '#282d33'}`,
             borderRadius: isLastTypedChar || isTypedEmpty ? 0 : 8
           } : {
-            borderLeft: 'solid 2px transparent',
-            borderRight: 'solid 2px transparent'
+            borderRight: 'solid 2px transparent',
+            borderLeft: isTypedEmpty && index === 0 ? `solid 2px transparent` : 'none',
+            borderRadius: 8
           }
 
           return (
