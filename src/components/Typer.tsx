@@ -1,16 +1,17 @@
 import React, { useRef, useState, Fragment } from 'react'
 
-const dummyTestText = 'bacon ipsum dolor amet hamburger pork chop tongue meatball turkey swine tenderloin ham bresaola capicola chislic ham hock biltong cupim jowl picanha brisket turducken pork chop filet'
-
 type CharState = 'yay' | 'nay' | 'empty'
 
 const yayColor = '#c7b798'
 const nayColor = '#f56c42'
 const emptyColor = '#808080'
 
-function Typer() {
+export function Typer({ typedText, setTypedText, testText }: {
+  typedText: string
+  setTypedText: (value: string) => void
+  testText: string
+}) {
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const [typedText, setTypedText] = useState('')
   const [isFocused, setIsFocused] = useState(false)
 
   const focusInput = () => {
@@ -19,7 +20,7 @@ function Typer() {
 
   const charState = (index: number): CharState => {
     if (typedText[index]) {
-      const isEq = typedText.charCodeAt(index) === dummyTestText.charCodeAt(index)
+      const isEq = typedText.charCodeAt(index) === testText.charCodeAt(index)
       return isEq ? 'yay' : 'nay'
     }
     return 'empty'
@@ -51,7 +52,7 @@ function Typer() {
           letterSpacing: '-0.25rem'
         }}
       >
-        {dummyTestText.split('').map((char: string, index: number) => {
+        {testText.split('').map((char: string, index: number) => {
           const state = charState(index)
           const color = charColor(state)
           const isNaySpace = isSpaceChar(char) && state === 'nay'
@@ -95,5 +96,3 @@ function Typer() {
     </Fragment>
   )
 }
-
-export default Typer
