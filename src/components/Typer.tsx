@@ -46,10 +46,8 @@ export function Typer({ typedText, setTypedText, testText }: {
         style={{
           maxWidth: 720,
           fontSize: 'calc(10px + 2vmin)',
-          fontFamily: 'monospace, monospace',
           textAlign: 'center',
-          // wordSpacing: '0.25rem',
-          // letterSpacing: '-0.25rem'
+          wordSpacing: '0.25rem'
         }}
       >
         {testText.split('').map((char: string, index: number) => {
