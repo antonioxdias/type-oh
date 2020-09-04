@@ -1,10 +1,14 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Title, Typer } from './components'
-
-const dummyTestText = 'bacon ipsum dolor amet hamburger pork chop tongue meatball turkey swine tenderloin ham bresaola capicola chislic ham hock biltong cupim jowl picanha brisket turducken pork chop filet'
+import useWords from './lib/useWords'
 
 function App() {
   const [typedText, setTypedText] = useState('')
+  const [requestWords, setRequestWords] = useState(true)
+
+  const requestCompleted = () => setRequestWords(false)
+  const words = useWords(50, requestWords, requestCompleted)
+  useEffect(() => requestCompleted, [])
 
   return (
     <Fragment>
@@ -22,7 +26,7 @@ function App() {
         <Typer
           typedText={typedText}
           setTypedText={setTypedText}
-          testText={dummyTestText}
+          testText={words.join(' ')}
         />
       </main>
     </Fragment>
