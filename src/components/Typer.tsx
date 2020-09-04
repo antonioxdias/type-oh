@@ -1,49 +1,36 @@
-import React, { useRef, useState, Fragment } from 'react'
+import React, { useRef, useState, useEffect, Fragment } from 'react'
+import { backgroundColor, yayColor, nayColor, emptyColor } from '../lib/utils'
 
 type CharState = 'yay' | 'nay' | 'empty'
 
-const yayColor = '#c7b798'
-const nayColor = '#f56c42'
-const emptyColor = '#808080'
-
-export function Typer({ typedText, setTypedText, testText }: {
-  typedText: string
-  setTypedText: (value: string) => void
+export function Typer({ testText, onFinish }: {
   testText: string
+  onFinish: (typedText: string) => void
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const [typedText, setTypedText] = useState('')
   const [isFocused, setIsFocused] = useState(false)
+
+  useEffect(() => {
+    if (typedText.length === testText.length) {
+      onFinish(typedText)
+    }
+  }, [typedText, testText, onFinish])
+
+  useEffect(() => setTypedText(''), [testText])
 
   const focusInput = () => {
     if (inputRef && inputRef.current) inputRef.current.focus()
   }
 
-  const charState = (index: number): CharState => {
-    if (typedText[index]) {
-      const isEq = typedText.charCodeAt(index) === testText.charCodeAt(index)
-      return isEq ? 'yay' : 'nay'
-    }
-    return 'empty'
-  }
-
-  const isSpaceChar = (char: string) => char.charCodeAt(0) === 32
-
-  const charColor = (state: CharState) => {
-    switch (state) {
-      case 'yay':
-        return yayColor
-      case 'nay':
-        return nayColor
-      default:
-        return emptyColor
-    }
-  }
+  if (!testText) return null
 
   return (
     <Fragment>
       <div
         onClick={focusInput}
         style={{
+          position: 'relative',
           maxWidth: 720,
           fontSize: 'calc(10px + 2vmin)',
           textAlign: 'center',
@@ -51,7 +38,7 @@ export function Typer({ typedText, setTypedText, testText }: {
         }}
       >
         {testText.split('').map((char: string, index: number) => {
-          const state = charState(index)
+          const state = charState(typedText, testText, index)
           const color = charColor(state)
           const isNaySpace = isSpaceChar(char) && state === 'nay'
           const isLastTypedChar = index === typedText.length - 1
@@ -80,9 +67,31 @@ export function Typer({ typedText, setTypedText, testText }: {
             </span>
           )
         })}
+        {
+          !isFocused && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'grid',
+                placeItems: 'center',
+                backgroundColor,
+                opacity: 0.8,
+                verticalAlign: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              Click here to start typing!
+            </div>
+          )
+        }
       </div>
       <input
         ref={inputRef}
+        value={typedText}
         onChange={(ev) => setTypedText(ev.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
@@ -94,4 +103,25 @@ export function Typer({ typedText, setTypedText, testText }: {
       />
     </Fragment>
   )
+}
+
+const charState = (typedText: string, testText: string, index: number): CharState => {
+  if (typedText[index]) {
+    const isEq = typedText.charCodeAt(index) === testText.charCodeAt(index)
+    return isEq ? 'yay' : 'nay'
+  }
+  return 'empty'
+}
+
+const isSpaceChar = (char: string) => char.charCodeAt(0) === 32
+
+const charColor = (state: CharState) => {
+  switch (state) {
+    case 'yay':
+      return yayColor
+    case 'nay':
+      return nayColor
+    default:
+      return emptyColor
+  }
 }

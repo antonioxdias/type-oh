@@ -1,14 +1,11 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Title, Typer } from './components'
 import useWords from './lib/useWords'
+import { backgroundColor } from './lib/utils'
 
 function App() {
-  const [typedText, setTypedText] = useState('')
-  const [requestWords, setRequestWords] = useState(true)
-
-  const requestCompleted = () => setRequestWords(false)
-  const words = useWords(25, requestWords, requestCompleted)
-  useEffect(() => requestCompleted, [])
+  const [resultText, setResultText] = useState('')
+  const words = useWords(15, resultText)
 
   return (
     <Fragment>
@@ -17,16 +14,15 @@ function App() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: '#282d33',
+          backgroundColor,
           height: '100vh',
           color: 'white'
         }}
       >
         <Title />
         <Typer
-          typedText={typedText}
-          setTypedText={setTypedText}
           testText={words.join(' ')}
+          onFinish={typedText => setResultText(typedText)}
         />
       </main>
     </Fragment>
