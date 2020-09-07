@@ -3,24 +3,33 @@ import { backgroundColor, yayColor, nayColor, emptyColor } from '../lib/utils'
 
 type CharState = 'yay' | 'nay' | 'empty'
 
-export function Typer({ testText, onFinish }: {
+export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
   testText: string
+  isRunning: boolean
+  onStart: () => void
   onFinish: (typedText: string) => void
+  latestWPM: number | null
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [typedText, setTypedText] = useState('')
   const [isFocused, setIsFocused] = useState(false)
 
   useEffect(() => {
-    if (typedText.length === testText.length) {
+    if (testText === '') return
+    if (typedText.length === testText.length && isRunning) {
       onFinish(typedText)
     }
-  }, [typedText, testText, onFinish])
+  }, [typedText, testText, isRunning, onFinish])
 
   useEffect(() => setTypedText(''), [testText])
 
   const focusInput = () => {
     if (inputRef && inputRef.current) inputRef.current.focus()
+  }
+  
+  const onInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isRunning) onStart()
+    setTypedText(ev.target.value)
   }
 
   if (!testText) return null
@@ -88,11 +97,30 @@ export function Typer({ testText, onFinish }: {
             </div>
           )
         }
+        {
+          latestWPM && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'grid',
+                placeItems: 'center',
+                backgroundColor,
+                color: 'pink'
+              }}
+            >
+              {latestWPM}
+            </div>
+          )
+        }
       </div>
       <input
         ref={inputRef}
         value={typedText}
-        onChange={(ev) => setTypedText(ev.target.value)}
+        onChange={onInputChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         style={{
