@@ -6,7 +6,8 @@ import useChars from './lib/useChars'
 import { backgroundColor } from './lib/utils'
 
 const wordCount = 5
-const symbolsCount = 20
+const symbolsCount = 40
+const showWPM = false
 
 function App() {
   const [mode, setMode] = useState<TestMode>('chars')
@@ -52,6 +53,7 @@ function App() {
           isRunning={isRunning}
           onStart={onRunStart}
           onFinish={onRunFinish}
+          showWPM={showWPM}
           latestWPM={wpm}
         />
       </main>
