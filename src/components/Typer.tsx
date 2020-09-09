@@ -23,6 +23,16 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
 
   useEffect(() => setTypedText(''), [testText])
 
+  useEffect(() => {
+    const focusOnEnterDown = (ev: KeyboardEvent) => {
+      if (ev.keyCode === 13 && !isFocused) focusInput()
+    }
+    document.addEventListener('keydown', focusOnEnterDown)
+    return () => {
+      document.removeEventListener('keydown', focusOnEnterDown)
+    }
+  }, [])
+
   const focusInput = () => {
     if (inputRef && inputRef.current) inputRef.current.focus()
   }
