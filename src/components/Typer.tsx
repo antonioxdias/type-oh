@@ -108,7 +108,7 @@ export function Typer({ testText, isRunning, onStart, onFinish, showWPM, latestW
                 cursor: 'pointer'
               }}
             >
-              Click here to start typing!
+              Click here to start typing! (or press Enter)
             </div>
           )
         }
