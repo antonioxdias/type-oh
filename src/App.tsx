@@ -1,16 +1,21 @@
 import React, { useState, Fragment } from 'react'
 import { Title, Typer } from './components'
+import { TestMode } from './lib/types'
 import useWords from './lib/useWords'
+import useChars from './lib/useChars'
 import { backgroundColor } from './lib/utils'
 
 const wordCount = 5
+const symbolsCount = 20
 
 function App() {
-  const [resultText, setResultText] = useState('')
+  const [mode, setMode] = useState<TestMode>('chars')
   const [isRunning, setIsRunning] = useState(false)
+  const [resultText, setResultText] = useState('')
   const [startTime, setStartTime] = useState<number | null>(null)
   const [wpm, setWPM] = useState<number | null>(null)
-  const words = useWords(wordCount, resultText)
+  const words = useWords(wordCount, mode, isRunning)
+  const symbols = useChars(symbolsCount, mode, isRunning)
 
   const onRunStart = () => {
     setIsRunning(true)
@@ -43,7 +48,7 @@ function App() {
       >
         <Title />
         <Typer
-          testText={words.join(' ')}
+          testText={mode === 'words' ? words : symbols}
           isRunning={isRunning}
           onStart={onRunStart}
           onFinish={onRunFinish}

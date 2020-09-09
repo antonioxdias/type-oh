@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react'
+import { CharState } from '../lib/types'
 import { backgroundColor, yayColor, nayColor, emptyColor } from '../lib/utils'
-
-type CharState = 'yay' | 'nay' | 'empty'
 
 export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
   testText: string

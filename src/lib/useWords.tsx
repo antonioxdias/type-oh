@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { TestMode } from '../lib/types'
 
-const useWords = (amount: number, typedText: string) => {
+const useWords = (amount: number, testMode: TestMode, isRunning: boolean) => {
   const [words, setWords] = useState<string[]>([])
 
   useEffect(() => {
@@ -16,10 +17,10 @@ const useWords = (amount: number, typedText: string) => {
         })
     }
 
-    fetchWords()
-  }, [amount, typedText])
+    if (testMode === 'words' && !isRunning) fetchWords()
+  }, [amount, testMode, isRunning])
 
-  return words
+  return words.join(' ')
 }
 
 export default useWords
