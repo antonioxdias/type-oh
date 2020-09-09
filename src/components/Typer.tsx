@@ -18,6 +18,7 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
     if (testText === '') return
     if (typedText.length === testText.length && isRunning) {
       onFinish(typedText)
+      blurInput()
     }
   }, [typedText, testText, isRunning, onFinish])
 
@@ -25,6 +26,10 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
 
   const focusInput = () => {
     if (inputRef && inputRef.current) inputRef.current.focus()
+  }
+
+  const blurInput = () => {
+    if (inputRef && inputRef.current) inputRef.current.blur()
   }
   
   const onInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +103,7 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
           )
         }
         {
-          latestWPM && (
+          !isFocused && latestWPM && (
             <div
               style={{
                 position: 'absolute',
@@ -109,7 +114,9 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
                 display: 'grid',
                 placeItems: 'center',
                 backgroundColor,
-                color: 'pink'
+                color: yayColor,
+                fontSize: 24,
+                pointerEvents: 'none' 
               }}
             >
               {latestWPM}

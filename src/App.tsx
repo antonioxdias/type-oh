@@ -3,7 +3,7 @@ import { Title, Typer } from './components'
 import useWords from './lib/useWords'
 import { backgroundColor } from './lib/utils'
 
-const wordCount = 15
+const wordCount = 5
 
 function App() {
   const [resultText, setResultText] = useState('')
