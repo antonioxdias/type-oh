@@ -31,7 +31,7 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
     return () => {
       document.removeEventListener('keydown', focusOnEnterDown)
     }
-  }, [])
+  }, [isFocused])
 
   const focusInput = () => {
     if (inputRef && inputRef.current) inputRef.current.focus()
