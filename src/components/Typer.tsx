@@ -2,12 +2,11 @@ import React, { useRef, useState, useEffect, Fragment } from 'react'
 import { CharState } from '../lib/types'
 import { backgroundColor, yayColor, nayColor, emptyColor } from '../lib/utils'
 
-export function Typer({ testText, isRunning, onStart, onFinish, showWPM, latestWPM }: {
+export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
   testText: string
   isRunning: boolean
   onStart: () => void
   onFinish: (typedText: string) => void
-  showWPM: boolean
   latestWPM: number | null
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -113,7 +112,7 @@ export function Typer({ testText, isRunning, onStart, onFinish, showWPM, latestW
           )
         }
         {
-          !isFocused && showWPM && latestWPM && (
+          !isFocused && latestWPM && (
             <div
               style={{
                 position: 'absolute',

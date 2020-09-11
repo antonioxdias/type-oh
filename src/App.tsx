@@ -2,21 +2,16 @@ import React, { useState, Fragment } from 'react'
 import { Title, Typer } from './components'
 import { TestMode } from './lib/types'
 import useWords from './lib/useWords'
-import useChars from './lib/useChars'
 import { backgroundColor } from './lib/utils'
 
 const wordCount = 5
-const symbolsCount = 40
-const showWPM = false
 
 function App() {
   const [mode, setMode] = useState<TestMode>('chars')
   const [isRunning, setIsRunning] = useState(false)
-  const [resultText, setResultText] = useState('')
   const [startTime, setStartTime] = useState<number | null>(null)
   const [wpm, setWPM] = useState<number | null>(null)
   const words = useWords(wordCount, mode, isRunning)
-  const symbols = useChars(symbolsCount, mode, isRunning)
 
   const onRunStart = () => {
     setIsRunning(true)
@@ -24,7 +19,7 @@ function App() {
   }
 
   const onRunFinish = (typedText: string) => {
-    setResultText(typedText)
+    console.log(typedText)
     setIsRunning(false)
     setWPM(calcWPM(Date.now()))
     setStartTime(null)
@@ -49,11 +44,10 @@ function App() {
       >
         <Title />
         <Typer
-          testText={mode === 'words' ? words : symbols}
+          testText={words}
           isRunning={isRunning}
           onStart={onRunStart}
           onFinish={onRunFinish}
-          showWPM={showWPM}
           latestWPM={wpm}
         />
       </main>
