@@ -1,13 +1,13 @@
 import React, { useState, Fragment } from 'react'
-import { Title, Typer } from './components'
+import { ModeSwitcher, Title, Typer } from './components'
 import { TestMode } from './lib/types'
 import useWords from './lib/useWords'
 import { backgroundColor } from './lib/utils'
 
-const wordCount = 5
+const wordCount = 15
 
 function App() {
-  const [mode, setMode] = useState<TestMode>('chars')
+  const [mode, setMode] = useState<TestMode>('words')
   const [isRunning, setIsRunning] = useState(false)
   const [startTime, setStartTime] = useState<number | null>(null)
   const [wpm, setWPM] = useState<number | null>(null)
@@ -43,6 +43,11 @@ function App() {
         }}
       >
         <Title />
+        <ModeSwitcher
+          mode={mode}
+          setMode={setMode}
+          isRunning={isRunning}
+        />
         <Typer
           testText={words}
           isRunning={isRunning}
