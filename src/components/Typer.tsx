@@ -53,43 +53,48 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
       <div
         onClick={focusInput}
         style={{
+          display: 'grid',
+          placeItems: 'center',
           position: 'relative',
           maxWidth: 720,
+          height: '25%',
           fontSize: 'calc(10px + 2vmin)',
           textAlign: 'center',
           wordSpacing: '0.25rem'
         }}
       >
-        {testText.split('').map((char: string, index: number) => {
-          const state = charState(typedText, testText, index)
-          const color = charColor(state)
-          const isNaySpace = isSpaceChar(char) && state === 'nay'
-          const isLastTypedChar = index === typedText.length - 1
-          const isTypedEmpty = typedText.length === 0
+        <div>
+          {testText.split('').map((char: string, index: number) => {
+            const state = charState(typedText, testText, index)
+            const color = charColor(state)
+            const isNaySpace = isSpaceChar(char) && state === 'nay'
+            const isLastTypedChar = index === typedText.length - 1
+            const isTypedEmpty = typedText.length === 0
 
-          const borderStyle = isFocused ? {
-            borderLeft: isTypedEmpty && index === 0 ? `solid 2px ${yayColor}` : 'none',
-            borderRight: `solid 2px ${isLastTypedChar && !isTypedEmpty ? yayColor : '#282d33'}`,
-            borderRadius: isLastTypedChar || isTypedEmpty ? 0 : 8
-          } : {
-            borderRight: 'solid 2px transparent',
-            borderLeft: isTypedEmpty && index === 0 ? `solid 2px transparent` : 'none',
-            borderRadius: 8
-          }
+            const borderStyle = isFocused ? {
+              borderLeft: isTypedEmpty && index === 0 ? `solid 2px ${yayColor}` : 'none',
+              borderRight: `solid 2px ${isLastTypedChar && !isTypedEmpty ? yayColor : '#282d33'}`,
+              borderRadius: isLastTypedChar || isTypedEmpty ? 0 : '40%'
+            } : {
+              borderRight: 'solid 2px transparent',
+              borderLeft: isTypedEmpty && index === 0 ? `solid 2px transparent` : 'none',
+              borderRadius: '40%'
+            }
 
-          return (
-            <span
-              key={index}
-              style={{
-                color,
-                backgroundColor: isNaySpace ? nayColor : 'transparent',
-                ...borderStyle
-              }}
-            >
-              {char}
-            </span>
-          )
-        })}
+            return (
+              <span
+                key={index}
+                style={{
+                  color,
+                  backgroundColor: isNaySpace ? nayColor : 'transparent',
+                  ...borderStyle
+                }}
+              >
+                {char}
+              </span>
+            )
+          })}
+        </div>
         {
           !isFocused && (
             <div
@@ -112,7 +117,7 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
           )
         }
         {
-          !isFocused && latestWPM && (
+          !isFocused && !isRunning && latestWPM && (
             <div
               style={{
                 position: 'absolute',
@@ -120,15 +125,16 @@ export function Typer({ testText, isRunning, onStart, onFinish, latestWPM }: {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                display: 'grid',
-                placeItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
                 backgroundColor,
                 color: yayColor,
-                fontSize: 24,
                 pointerEvents: 'none' 
               }}
             >
-              {latestWPM}
+              <span style={{ fontSize: 92 }}>{latestWPM}</span>
+              <span style={{ fontSize: 24 }}>wpm</span>
             </div>
           )
         }
